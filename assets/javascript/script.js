@@ -12,7 +12,7 @@ let numeric = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 let specialChar = ['~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', '/', ':', ';', "'", '"', '<', '>', ',', '.', '?'];
 
 let possibleOptions = [lowerCase, upperCase, numeric, specialChar];
-
+console.log(possibleOptions);
 //determines the password length
 function passwordLength() {
 
@@ -20,11 +20,12 @@ function passwordLength() {
         passlen = prompt("Enter desired password length (8 - 128)");
 
         if (!passlen || isNaN(passlen) || passlen < 8 || passlen > 128) {
-            window.alert("Please enter a valid input betwen 8 - 128.");
+            if (!window.confirm("Please enter a valid input betwen 8 - 128.")) {
+                return false;
+            }
         } else {
             console.log(passlen);
-            return;
-            //if the cancel button is hit it re prompts the question instead of quitting out like the charChoices function would
+            return true;
         }
     }
 }
@@ -32,25 +33,26 @@ function passwordLength() {
 //builds array of user responses to the prompt questions
 function charChoices() {
     let questions = [["Include lowercase letters? Please answer yes or no"], ["Include uppercase letters? Please answer yes or no"], ["Include numbers? Please answer yes or no"], ["Include special characters? Please answer yes or no"]];
-    // while (true) {
-        for (let i =0; i < questions.length; i++) {
+
+    for (let i = 0; i < questions.length; i++) {
+        while (true) {
             let yesOrNo = prompt(questions[i]).toLowerCase();
             if (yesOrNo !== 'yes' && yesOrNo !== 'no') {
                 window.alert('Please enter a valid respons of yes or no.')
             } else {
                 userChoices.push(yesOrNo);
                 console.log(userChoices);
+                break;
             }
         }
-    // }
-    //without the while statemnet, even if the answer isnt valid and it re prompts it goes to the next question, with while statement, it just keeps asking the questions over and over non stop
+    }
 }
 
 //builds he array of the final options of characters for the generated password based on prompt responses
 function optionsIncluded() {
-    for (let i = 0; i < userChoices.length; i++){
+    for (let i = 0; i < userChoices.length; i++) {
         if (userChoices[i] == 'yes') {
-            finalOptions += possibleOptions[i];
+            finalOptions = finalOptions.concat(possibleOptions[i]);
             console.log(finalOptions);
             //the last character from each option set isnt seperated from the first character of the next set when it gets added to the final options array
         }
@@ -75,12 +77,14 @@ function resetValues() {
 function writePassword() {
     var passwordText = document.querySelector("#password");
 
-    passwordLength();
-    charChoices()
-    optionsIncluded();
-    generatePassword();
+    if (passwordLength()) {
+        charChoices()
+        optionsIncluded();
+        generatePassword();
 
-    passwordText.value = password;
+        passwordText.value = password;
+
+    }
 
     resetValues();
 }
