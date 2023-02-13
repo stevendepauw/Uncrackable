@@ -12,7 +12,7 @@ let numeric = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 let specialChar = ['~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', '/', ':', ';', "'", '"', '<', '>', ',', '.', '?'];
 
 let possibleOptions = [lowerCase, upperCase, numeric, specialChar];
-console.log(possibleOptions);
+
 //determines the password length
 function passwordLength() {
 
@@ -24,7 +24,6 @@ function passwordLength() {
                 return false;
             }
         } else {
-            console.log(passlen);
             return true;
         }
     }
@@ -48,13 +47,12 @@ function charChoices() {
     }
 }
 
-//builds he array of the final options of characters for the generated password based on prompt responses
+//builds the array of the final options of characters for the generated password based on prompt responses
 function optionsIncluded() {
     for (let i = 0; i < userChoices.length; i++) {
         if (userChoices[i] == 'yes') {
             finalOptions = finalOptions.concat(possibleOptions[i]);
             console.log(finalOptions);
-            //the last character from each option set isnt seperated from the first character of the next set when it gets added to the final options array
         }
     }
 }
